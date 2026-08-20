@@ -5,8 +5,7 @@ CREATE TABLE `roles` (
     `created_at` TimeStamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
     `updated_at` TimeStamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     UNIQUE INDEX `role_name` (`name`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4;
-
+) ENGINE = InnoDB AUTO_INCREMENT = 1 DEFAULT CHARSET = utf8mb4;
 CREATE TABLE `users` (
     `id` BIGINT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
     `username` varchar(255) NOT NULL,
@@ -15,22 +14,21 @@ CREATE TABLE `users` (
     `updated_at` TimeStamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     UNIQUE INDEX `user_license` (`license`) USING BTREE,
     INDEX `user_username` (`username`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4;
-
+) ENGINE = InnoDB AUTO_INCREMENT = 1 DEFAULT CHARSET = utf8mb4;
 CREATE TABLE `characters` (
-    `id` BIGINT UNSIGNED  NOT NULL PRIMARY KEY AUTO_INCREMENT,
-    `user_id` BIGINT UNSIGNED  NOT NULL,
+    `id` BIGINT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    `user_id` BIGINT UNSIGNED NOT NULL,
     `role_id` BIGINT UNSIGNED NOT NULL DEFAULT 1,
     `first_name` varchar(255) NOT NULL,
     `last_name` varchar(255) NOT NULL,
     `dob` varchar(255) NOT NULL,
-    `dollars` decimal(15,2) NOT NULL,
-    `gold` decimal(15,2) NOT NULL,
+    `dollars` decimal(15, 2) NOT NULL,
+    `gold` decimal(15, 2) NOT NULL,
     `tokens` BIGINT NOT NULL,
     `xp` float NOT NULL,
-    `x` decimal(15,10) NOT NULL,
-    `y` decimal(15,10) NOT NULL,
-    `z` decimal(15,10) NOT NULL,
+    `x` decimal(15, 10) NOT NULL,
+    `y` decimal(15, 10) NOT NULL,
+    `z` decimal(15, 10) NOT NULL,
     `lang` varchar(255) NOT NULL,
     `dead` tinyint DEFAULT 0,
     `model` varchar(255) NOT NULL,
@@ -43,8 +41,7 @@ CREATE TABLE `characters` (
     INDEX `character_full_name` (`first_name`, `last_name`) USING BTREE,
     CONSTRAINT `FK_User` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
     CONSTRAINT `FK_Role` FOREIGN KEY (`role_id`) REFERENCES `roles` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4;
-
+) ENGINE = InnoDB AUTO_INCREMENT = 1 DEFAULT CHARSET = utf8mb4;
 CREATE TABLE IF NOT EXISTS `character_appearance` (
     `id` bigint(20) unsigned NOT NULL,
     `attributes` text DEFAULT '{}',
@@ -53,17 +50,15 @@ CREATE TABLE IF NOT EXISTS `character_appearance` (
     `clothingtints` text DEFAULT '{}',
     PRIMARY KEY (`id`),
     CONSTRAINT `FK_character_appearance_characters` FOREIGN KEY (`id`) REFERENCES `characters` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_general_ci;
 CREATE TABLE `ground` (
     `id` BIGINT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
-    `x` decimal(15,10) NOT NULL,
-    `y` decimal(15,10) NOT NULL,
-    `z` decimal(15,10) NOT NULL,
+    `x` decimal(15, 10) NOT NULL,
+    `y` decimal(15, 10) NOT NULL,
+    `z` decimal(15, 10) NOT NULL,
     `created_at` TimeStamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
     `updated_at` TimeStamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4;
-
+) ENGINE = InnoDB AUTO_INCREMENT = 1 DEFAULT CHARSET = utf8mb4;
 CREATE TABLE `inventory` (
     `id` BIGINT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
     `uuid` UUID NOT NULL DEFAULT UUID(),
@@ -75,15 +70,13 @@ CREATE TABLE `inventory` (
     `created_at` TimeStamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
     `updated_at` TimeStamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     CONSTRAINT `FK_InventoryCharacter` FOREIGN KEY (`character_id`) REFERENCES `characters` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4;
-
+) ENGINE = InnoDB AUTO_INCREMENT = 1 DEFAULT CHARSET = utf8mb4;
 CREATE TABLE `categories` (
     `id` BIGINT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
     `name` varchar(255) NOT NULL,
     `created_at` TimeStamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
     `updated_at` TimeStamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 DEFAULT CHARSET = utf8mb4;
-
 CREATE TABLE `items` (
     `id` bigint UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
     `name` varchar(255) NOT NULL,
@@ -100,8 +93,7 @@ CREATE TABLE `items` (
     KEY `FK_Category` (`category_id`) USING BTREE,
     KEY `item_name` (`name`) USING BTREE,
     CONSTRAINT `FK_Category` FOREIGN KEY (`category_id`) REFERENCES `categories` (`id`) ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
+) ENGINE = InnoDB AUTO_INCREMENT = 1 DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_general_ci;
 CREATE TABLE `inventory_items` (
     `id` BIGINT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
     `inventory_id` BIGINT UNSIGNED NOT NULL,
@@ -111,7 +103,6 @@ CREATE TABLE `inventory_items` (
     CONSTRAINT `FK_Inventory` FOREIGN KEY (`inventory_id`) REFERENCES `inventory` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
     CONSTRAINT `FK_InventoryItem` FOREIGN KEY (`item_id`) REFERENCES `items` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 DEFAULT CHARSET = utf8mb4;
-
 CREATE TABLE `item_metadata` (
     `inventory_items_id` BIGINT UNSIGNED NOT NULL,
     `key` VARCHAR(50) NOT NULL,
@@ -120,8 +111,7 @@ CREATE TABLE `item_metadata` (
     `updated_at` TimeStamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     CONSTRAINT `FK_InventoryItemsMetadata` FOREIGN KEY (`inventory_items_id`) REFERENCES `inventory_items` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
     PRIMARY KEY(`inventory_items_id`, `key`)
-)ENGINE = InnoDB AUTO_INCREMENT = 1 DEFAULT CHARSET = utf8mb4;
-
+) ENGINE = InnoDB AUTO_INCREMENT = 1 DEFAULT CHARSET = utf8mb4;
 CREATE TABLE `inventory_blacklist` (
     `inventory_id` BIGINT UNSIGNED NOT NULL,
     `item_id` BIGINT UNSIGNED NOT NULL,
@@ -131,8 +121,6 @@ CREATE TABLE `inventory_blacklist` (
     CONSTRAINT `FK_InventoryItemBlacklist` FOREIGN KEY (`item_id`) REFERENCES `items` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
     PRIMARY KEY (`inventory_id`, `item_id`)
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 DEFAULT CHARSET = utf8mb4;
-
-
 CREATE TABLE IF NOT EXISTS ammo (
     char_id BIGINT UNSIGNED NOT NULL,
     ammo_22 INT UNSIGNED NOT NULL DEFAULT 0,
@@ -213,8 +201,7 @@ CREATE TABLE IF NOT EXISTS ammo (
     ammo_tomahawk_improved INT UNSIGNED NOT NULL DEFAULT 0,
     ammo_turret INT UNSIGNED NOT NULL DEFAULT 0,
     FOREIGN KEY (char_id) REFERENCES characters(id) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4;
 CREATE TABLE IF NOT EXISTS `feather_admin_bans` (
     `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
     `license` VARCHAR(100) NOT NULL,
@@ -236,8 +223,7 @@ CREATE TABLE IF NOT EXISTS `feather_admin_bans` (
     PRIMARY KEY (`id`),
     INDEX `idx_fa_bans_license_active` (`license`, `active`),
     INDEX `idx_fa_bans_expires` (`expires_at`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4;
 CREATE TABLE IF NOT EXISTS `feather_admin_warnings` (
     `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
     `license` VARCHAR(100) NOT NULL,
@@ -252,8 +238,7 @@ CREATE TABLE IF NOT EXISTS `feather_admin_warnings` (
     `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY (`id`),
     INDEX `idx_fa_warnings_license` (`license`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4;
 CREATE TABLE IF NOT EXISTS `feather_admin_kicks` (
     `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
     `license` VARCHAR(100) NOT NULL,
@@ -268,8 +253,7 @@ CREATE TABLE IF NOT EXISTS `feather_admin_kicks` (
     `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY (`id`),
     INDEX `idx_fa_kicks_license` (`license`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4;
 CREATE TABLE IF NOT EXISTS `feather_admin_actions` (
     `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
     `admin_license` VARCHAR(100) NULL,
@@ -288,4 +272,4 @@ CREATE TABLE IF NOT EXISTS `feather_admin_actions` (
     INDEX `idx_fa_actions_target_license` (`target_license`),
     INDEX `idx_fa_actions_action` (`action`),
     INDEX `idx_fa_actions_created_at` (`created_at`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4;
