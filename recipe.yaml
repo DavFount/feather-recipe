@@ -2,7 +2,7 @@ $engine: 3
 $onesync: on
 name: Feather
 description: The official recipe for Feather Framework.
-version: 2.2.1
+version: 2.2.2
 author: bcc
 
 tasks:
